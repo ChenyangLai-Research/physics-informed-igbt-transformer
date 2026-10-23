@@ -1,0 +1,7 @@
+# Direct dependency versions used for validation; not a full transitive lock.
+numpy==2.5.4
+scipy==1.18.1
+pandas==3.1.0
+scikit-learn==1.9.1
+torch==2.14.1
+openpyxl==3.1.5

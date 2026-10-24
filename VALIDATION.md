@@ -38,3 +38,5 @@ The updated source was rechecked locally: syntax, maintained-code lint, full reg
 This round reused the independently installed per-repository environments from the initial audit; it did not claim ten additional fresh installations. Original-data runs used 3 epochs (12 for slurry), max-samples 32, and replay comparison rtol=1e-6/atol=1e-7. No original data were uploaded. Modified legacy code remains outside the full-experiment execution claim.
 
 The preceding audit passed 30 hosted OS jobs. This PR now adds pip-audit 2.10.1 to each OS job; inspect checks at the current PR head for the new advisory results. Advisory checks depend on external service availability and the database state at run time. They are not proof that no vulnerability exists.
+
+A macOS job in the ten-repository follow-up audit correctly failed on an inherited certifi 2026.7.22 installation (PYSEC-2026-4320 / GHSA-6q48-6c7w-9gw2). `requirements-dev.txt` now pins the audit toolchain and certifi 2026.10.19. This is a CI/tooling dependency correction, not a scientific model change. Check the final PR-head run after this correction.

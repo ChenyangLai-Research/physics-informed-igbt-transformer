@@ -92,3 +92,16 @@ Original folders were left unchanged. No raw data, manuscript, trained research 
 ## Before public release
 
 See [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) and [RELEASE_DECISIONS.md](RELEASE_DECISIONS.md) for the exact unresolved rights, data-access and scientific decisions. Passing an execution check does not establish publication permission or reproduce scientific results.
+
+## Developer checks
+
+Install `requirements-dev.txt` in addition to the application requirements to run the same lint and advisory tools used by CI:
+
+```sh
+python -m pip install -r requirements-tested.txt -r requirements-dev.txt
+python -m pip check
+python -m unittest discover -s tests -v
+python -m pip_audit
+```
+
+The audit-tool constraints include a patched certifi CA bundle. Advisory results are time-dependent; a clean audit is not a guarantee of security.

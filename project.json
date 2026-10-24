@@ -15,6 +15,6 @@
   ],
   "recovery_date": "2026-10-23",
   "entrypoint": "python run.py",
-  "validation": "synthetic and local-data short runs passed; checkpoint regression passed",
+  "validation": "See VALIDATION.md for dated execution evidence and unverified scope.",
   "reproduction_status": "not a full reproduction of paper results"
 }

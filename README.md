@@ -1,6 +1,6 @@
 # Physics-informed Transformer for IGBT degradation assessment
 
-Private working repository for Chenyang Lai's research code. [Associated publication](https://doi.org/10.3850/ESREL2026061419_esrel26-p30436-cd)
+Curated research code associated with Chenyang Lai's work. [Associated publication](https://doi.org/10.3850/ESREL2026061419_esrel26-p30436-cd)
 
 This is a **runnable, curated recovery** of selected legacy code. The default experiment is deliberately small and checks data loading, training, held-out prediction and checkpoint saving. It does **not** reproduce the paper's numerical results.
 
@@ -10,16 +10,34 @@ Seven measured signals are augmented with deltaT = Tjunction - Tcase, deltaT/(I+
 
 ## Install and run
 
-Tested with Python 3.12 on macOS, CPU. From the repository directory:
+Use **CPython 3.12** and a CPU environment. The pinned PyTorch wheel requires **macOS 14 or later on Apple Silicon**.
+This dependency set has no Intel macOS PyTorch wheel; Intel Macs require a separately selected and tested environment.
+Linux and Windows require separate runtime validation; the CI matrix is configured to check both.
+CUDA and MPS execution are not implemented by this runner. MATLAB, ANSYS and TensorFlow are not required for the curated entry point.
+
+Clone the repository using an account with access while it remains private:
 
 ```sh
-python3 -m venv .venv
+git clone https://github.com/wowSUNBOY/physics-informed-igbt-transformer.git
+cd physics-informed-igbt-transformer
+```
+
+On macOS or Linux:
+
+```sh
+python3.12 -m venv .venv
 source .venv/bin/activate
+python -m pip install --upgrade pip==26.2.2
 python -m pip install -r requirements-tested.txt
+python -m pip check
 python run.py --demo --epochs 3 --max-samples 32 --output outputs/demo
 ```
 
-The synthetic demonstration requires no research dataset. For authorized local research data, point to the original project root described in [DATA.md](DATA.md):
+On Windows, create the environment with `py -3.12 -m venv .venv` and invoke `.venv\Scripts\python.exe` for each Python command.
+This avoids any PowerShell activation-policy changes. `requirements.txt` selects the same pinned direct dependencies.
+`requirements-lock-macos-py312.txt` records the complete macOS validation environment; it is not a universal platform lock.
+
+The synthetic demonstration generates examples in memory and requires no research dataset. For authorized local research data, point to the original project root described in [DATA.md](DATA.md):
 
 ```sh
 python run.py --data-root "/absolute/path/to/original/project" --epochs 3 --max-samples 32 --output outputs/real
@@ -27,7 +45,9 @@ python run.py --data-root "/absolute/path/to/original/project" --epochs 3 --max-
 
 `--epochs`, `--batch-size`, `--lr`, `--seed`, `--max-samples` and `--output` are configurable. Some models have additional fixed caps documented below. Longer training alone does not restore the full published protocol.
 
-The output folder contains metrics/history, predictions and a checkpoint (`model.pt`); preprocessing information is saved separately or inside the joblib bundle. Outputs and all data files are git-ignored. Regression MSE is in normalized coordinates unless the task says otherwise.
+Use a new or empty output directory for every run; existing results are protected from accidental overwriting.
+
+The output folder contains metrics/history, predictions and a checkpoint (`model.pt`); preprocessing information is saved separately or inside the joblib bundle. The documented output folder and common data formats are git-ignored. Inspect `git status` before committing any generated files. Regression MSE is in normalized coordinates unless the task says otherwise.
 
 To replay held-out inference from a checkpoint (not resume training):
 
@@ -35,7 +55,11 @@ To replay held-out inference from a checkpoint (not resume training):
 python run.py --demo --seed 22 --max-samples 32 --checkpoint outputs/demo/model.pt --output outputs/replay
 ```
 
-Replay requires the sibling `protocol.json`, identical data, data root/mode, seed and sample cap. The pipeline rebuilds its deterministic preprocessing and data split; this is not an arbitrary new-data prediction API. Only load trusted checkpoints.
+Replay requires the sibling `protocol.json`, identical data, data root/mode, seed and sample cap. The pipeline rebuilds its deterministic preprocessing and data split; this is not an arbitrary new-data prediction API. Protocol version 2 also checks SHA-256 fingerprints of input files before loading weights.
+Use the same code revision and dependency versions for checkpoint replay. Input fingerprints do not establish scientific equivalence.
+Create new checkpoints with this version; older protocols are rejected. `environment.json` records the runtime versions.
+Keep output bundles local: protocol files contain the absolute data-root path and metrics may identify research samples.
+Only load checkpoints from trusted sources.
 
 ## Data and execution protocol
 
@@ -47,7 +71,7 @@ Each series is split chronologically: first 70% training, next 10% unused reserv
 python -m unittest discover -s tests -v
 ```
 
-The regression test trains on synthetic data, reloads the checkpoint and checks identical predictions. It also checks that mismatched replay settings and missing local data fail clearly. [VALIDATION.md](VALIDATION.md) records local-data checks without including the underlying data.
+The regression suite trains on synthetic data and compares predictions after checkpoint replay. It also checks invalid arguments, changed input fingerprints, output protection and missing-data errors. [VALIDATION.md](VALIDATION.md) records local-data checks without including the underlying data.
 
 ## Scope and limitations
 
@@ -59,8 +83,12 @@ The paper uses a larger model, many more windows, scheduling, early stopping and
 - `experiment.py`: data selection, training objective and evaluation protocol.
 - `model.py`: extracted model definitions or explicitly documented port.
 - `runtime.py`: shared CPU experiment utilities.
-- `legacy/`: selected archival source for traceability; notebooks have outputs and execution metadata removed. These old scripts are reference material and may retain machine-specific paths and obsolete dependencies; run `run.py` instead.
+- `legacy/`: selected archival source for traceability; notebooks have outputs and execution metadata removed. These archival files are reference material, not supported executable entry points. They retain historical paths, optional dependencies and some unavailable local-module imports; use `run.py`. Their syntax is checked separately from execution.
 - `project.json`: original relative source paths and original SHA-256 hashes. Notebook hashes refer to the original unsanitized source.
 - `CHANGELOG.md`: changes and deviations from the archive.
 
 Original folders were left unchanged. No raw data, manuscript, trained research weights or partner documents are distributed. No open-source license has been assigned; see [RIGHTS.md](RIGHTS.md). Keep this repository private until its scope and rights are reviewed.
+
+## Before public release
+
+See [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) for unresolved rights, data-access and scientific-validation items. Passing an execution check does not establish publication permission or reproduce scientific results.

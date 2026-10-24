@@ -27,3 +27,7 @@ local_paths.json
 *.pem
 *.key
 .ruff_cache/
+*.p12
+*.pfx
+*.sqlite
+*.sqlite3

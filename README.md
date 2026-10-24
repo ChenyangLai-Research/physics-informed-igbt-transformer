@@ -12,7 +12,7 @@ Seven measured signals are augmented with deltaT = Tjunction - Tcase, deltaT/(I+
 
 Use **CPython 3.12** and a CPU environment. The pinned PyTorch wheel requires **macOS 14 or later on Apple Silicon**.
 This dependency set has no Intel macOS PyTorch wheel; Intel Macs require a separately selected and tested environment.
-Linux and Windows require separate runtime validation; the CI matrix is configured to check both.
+The preceding audit passed hosted CPU checks on Linux, macOS and Windows. Check the current PR checks for this revision; passing smoke tests does not validate all platform configurations.
 CUDA and MPS execution are not implemented by this runner. MATLAB, ANSYS and TensorFlow are not required for the curated entry point.
 
 Clone the repository using an account with access while it remains private:
@@ -55,10 +55,10 @@ To replay held-out inference from a checkpoint (not resume training):
 python run.py --demo --seed 22 --max-samples 32 --checkpoint outputs/demo/model.pt --output outputs/replay
 ```
 
-Replay requires the sibling `protocol.json`, identical data, data root/mode, seed and sample cap. The pipeline rebuilds its deterministic preprocessing and data split; this is not an arbitrary new-data prediction API. Protocol version 2 also checks SHA-256 fingerprints of input files before loading weights.
+Replay requires the sibling `protocol.json`, identical data, data mode, seed, sample cap, repository and maintained source code. The pipeline rebuilds its deterministic preprocessing and data split; this is not an arbitrary new-data prediction API. Protocol version 3 checks SHA-256 fingerprints of input files and maintained source code before loading weights. Identical data may be relocated to another root directory.
 Use the same code revision and dependency versions for checkpoint replay. Input fingerprints do not establish scientific equivalence.
 Create new checkpoints with this version; older protocols are rejected. `environment.json` records the runtime versions.
-Keep output bundles local: protocol files contain the absolute data-root path and metrics may identify research samples.
+Protocol files no longer store the absolute data-root path. They still contain relative input identifiers and hashes; predictions, selected features and metrics may reveal research information. Keep output bundles local until separately approved for disclosure.
 Only load checkpoints from trusted sources.
 
 ## Data and execution protocol
@@ -84,11 +84,11 @@ The paper uses a larger model, many more windows, scheduling, early stopping and
 - `model.py`: extracted model definitions or explicitly documented port.
 - `runtime.py`: shared CPU experiment utilities.
 - `legacy/`: selected archival source for traceability; notebooks have outputs and execution metadata removed. These archival files are reference material, not supported executable entry points. They retain historical paths, optional dependencies and some unavailable local-module imports; use `run.py`. Their syntax is checked separately from execution.
-- `project.json`: original relative source paths and original SHA-256 hashes. Notebook hashes refer to the original unsanitized source.
+- `project.json`: original relative source paths and original SHA-256 hashes. Original hashes are retained; `archived_sha256` records the current reviewed copy, including any documented safety edits or notebook sanitization.
 - `CHANGELOG.md`: changes and deviations from the archive.
 
 Original folders were left unchanged. No raw data, manuscript, trained research weights or partner documents are distributed. No open-source license has been assigned; see [RIGHTS.md](RIGHTS.md). Keep this repository private until its scope and rights are reviewed.
 
 ## Before public release
 
-See [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) for unresolved rights, data-access and scientific-validation items. Passing an execution check does not establish publication permission or reproduce scientific results.
+See [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) and [RELEASE_DECISIONS.md](RELEASE_DECISIONS.md) for the exact unresolved rights, data-access and scientific decisions. Passing an execution check does not establish publication permission or reproduce scientific results.

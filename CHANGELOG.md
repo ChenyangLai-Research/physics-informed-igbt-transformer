@@ -17,3 +17,10 @@ The paper uses a larger model, many more windows, scheduling, early stopping and
 - Add version-2 checkpoint protocols with input-file fingerprints. Older checkpoint protocols require retraining.
 - Add regression tests and a CPU CI matrix; CI execution status is reported separately from local tests.
 - Clarify runnable versus archival code, data confidentiality, reproducibility limits and release rights in the documentation.
+
+## Follow-up release hardening — 2026-10-24
+
+- Protocol v3 removes absolute machine paths, supports data-root relocation and binds replay to the repository and maintained source hashes. Recreate v1/v2 checkpoints.
+- Add replay privacy/provenance regressions and dependency advisory checks on all three hosted operating systems.
+- Avoid duplicate push/PR checks and cancel superseded workflow runs.
+- Record explicit release decisions; no rights, dataset license or scientific approval is assumed.

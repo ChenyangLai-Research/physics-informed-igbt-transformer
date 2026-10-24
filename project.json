@@ -10,7 +10,8 @@
       "original_relative_path": "8.3.26_PI_Features_with_comparison/Tformer_wind_earlystop_PI.py",
       "sha256": "8ca59aed7af4cca9c2c8bcebbee5305df1ba0ae798b02286457883ab5c6631d3",
       "archived_as": "legacy/01_Tformer_wind_earlystop_PI.py",
-      "notebook_outputs_removed": false
+      "notebook_outputs_removed": false,
+      "archived_sha256": "8ca59aed7af4cca9c2c8bcebbee5305df1ba0ae798b02286457883ab5c6631d3"
     }
   ],
   "recovery_date": "2026-10-23",

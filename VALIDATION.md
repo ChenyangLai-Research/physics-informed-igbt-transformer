@@ -7,7 +7,7 @@ Local environment: CPython 3.12.14, macOS arm64, CPU. Each repository was instal
 | Fresh dependency installation and `python -m pip check` | Passed |
 | Python syntax, including archival Python | Passed |
 | Maintained-code Ruff E9/F63/F7/F82 checks | Passed |
-| `python -m unittest discover -s tests -v` | 6 tests passed |
+| `python -m unittest discover -s tests -v` | 8 tests passed |
 | Synthetic training, inference and checkpoint replay | Passed |
 | Original local-data training, inference and checkpoint replay | Passed |
 | Dependency advisory audit after pip upgrade | No known advisories reported by pip-audit at audit time |
@@ -29,4 +29,12 @@ These checks validate execution, finite outputs and protocol consistency. They d
 
 The GitHub Actions matrix is defined for Python 3.12 on Linux, macOS and Windows. Defining or linting a workflow is not evidence of a successful hosted run. Hosted CI status is reported separately. CUDA/MPS, other Python versions, legacy experiment execution and MATLAB are unverified.
 
-The earlier 2026-10-23 validation applies to the preceding revision. This audit adds input fingerprints, output protection and additional regressions; protocol version 1 checkpoints must be recreated.
+The earlier 2026-10-23 validation applies to the preceding revision. This audit adds input fingerprints, output protection and additional regressions; protocol versions 1 and 2 checkpoints must be recreated.
+
+## Follow-up verification — 2026-10-24
+
+The updated source was rechecked locally: syntax, maintained-code lint, full regression suite, workflow lint, and original-data short training plus checkpoint replay all passed. The regression suite also covers synthetic training/replay, rejection of a different repository/source revision, legacy protocol rejection, and protocol portability without absolute data-root disclosure. See the test count above.
+
+This round reused the independently installed per-repository environments from the initial audit; it did not claim ten additional fresh installations. Original-data runs used 3 epochs (12 for slurry), max-samples 32, and replay comparison rtol=1e-6/atol=1e-7. No original data were uploaded. Modified legacy code remains outside the full-experiment execution claim.
+
+The preceding audit passed 30 hosted OS jobs. This PR now adds pip-audit 2.10.1 to each OS job; inspect checks at the current PR head for the new advisory results. Advisory checks depend on external service availability and the database state at run time. They are not proof that no vulnerability exists.

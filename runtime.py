@@ -59,7 +59,7 @@ def require(root, relative):
     with p.open("rb") as stream:
         for chunk in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(chunk)
-    _INPUTS[str(Path(relative))] = digest.hexdigest()
+    _INPUTS[Path(relative).as_posix()] = digest.hexdigest()
     return p
 
 
@@ -146,6 +146,38 @@ def finish(model, args, history, pred, target, extra=None, scalers=None):
     return report
 
 
+def build_protocol(args):
+    """Bind replay to code and data settings without storing machine paths."""
+    root = Path(__file__).resolve().parent
+    sources = {
+        name: hashlib.sha256((root / name).read_bytes()).hexdigest()
+        for name in ("run.py", "runtime.py", "model.py", "experiment.py")
+    }
+    return {
+        "version": 3,
+        "repository": json.loads((root / "project.json").read_text())["repository"],
+        "code_sha256": sources,
+        "demo": args.demo,
+        "seed": args.seed,
+        "max_samples": args.max_samples,
+    }
+
+
+def validate_protocol(saved, expected):
+    if not isinstance(saved, dict):
+        raise ValueError("Invalid checkpoint protocol")
+    settings = {key: value for key, value in saved.items() if key != "inputs"}
+    if settings != expected:
+        raise ValueError(
+            "Checkpoint replay requires the same repository, code, data mode, seed and max-samples; "
+            "protocol versions 1 and 2 require retraining. Replay does not resume training"
+        )
+    inputs = saved.get("inputs")
+    if not isinstance(inputs, dict):
+        raise ValueError("Invalid checkpoint input fingerprints")
+    return inputs
+
+
 def main(run):
     p = argparse.ArgumentParser(
         description="Portable research-code experiment. Defaults are short execution checks."
@@ -184,13 +216,7 @@ def main(run):
     torch.manual_seed(a.seed)
     np.random.seed(a.seed)
     random.seed(a.seed)
-    protocol = {
-        "version": 2,
-        "demo": a.demo,
-        "data_root": str(a.data_root.resolve()) if a.data_root else None,
-        "seed": a.seed,
-        "max_samples": a.max_samples,
-    }
+    protocol = build_protocol(a)
     try:
         if a.checkpoint:
             saved_path = a.checkpoint.parent / "protocol.json"
@@ -199,13 +225,7 @@ def main(run):
                     "Checkpoint requires its sibling protocol.json from this runner"
                 )
             saved = json.loads(saved_path.read_text())
-            if not isinstance(saved, dict):
-                raise ValueError("Invalid checkpoint protocol")
-            a.saved_inputs = saved.pop("inputs", None)
-            if saved != protocol:
-                raise ValueError(
-                    "Checkpoint replay requires the same data root, demo flag, seed and max-samples; it does not resume training"
-                )
+            a.saved_inputs = validate_protocol(saved, protocol)
         run(a)
         protocol["inputs"] = dict(sorted(_INPUTS.items()))
         a.output.mkdir(parents=True, exist_ok=True)

@@ -1,17 +1,14 @@
 # Public-release checklist
 
-The curated entry point and the archival scripts have different validation scopes.
-Keep this repository private until the unresolved items below have been reviewed.
+Keep this repository private. No merge or public-release action is authorized by the current audit.
 
-- [ ] Confirm permission from the relevant authors, institutions and partners for the selected code and embedded scientific constants.
-- [ ] Select and add a code license only after rights are confirmed. No license is granted by the current repository.
-- [ ] Confirm access and redistribution terms for each original dataset. No research dataset is included; synthetic examples do not establish data rights.
-- [ ] Review archival filenames, authorship headers and experimental settings for confidential information. Preserve required attribution.
-- [ ] Check all Git history before changing visibility. Removing a file from the latest revision does not remove earlier copies.
-- [ ] Confirm the current publication status and the match between this implementation and the cited study.
-- [ ] Review the independent Linux/Windows CI results before claiming compatibility. Local validation covers macOS arm64 CPU only.
-- [ ] Resolve scientific limitations in README.md before claiming paper reproduction or deploying the models in practice.
+- [ ] Resolve code rights and the exact project-wide license in RELEASE_DECISIONS.md (R).
+- [ ] Resolve dataset access, redistribution, schemas and identifier disclosure (D).
+- [ ] Approve the limited scientific scope or supply the authoritative correction (M).
+- [ ] Decide how to handle the original Git email/hostname before public release (H).
+- [ ] Approve the exact archival-source disclosure scope (A).
+- [ ] Confirm current PR-head CI results for Linux, macOS and Windows, including dependency advisory checks; do not rely only on a workflow definition or an older commit.
+- [ ] Review all history, generated bundles, issue/PR attachments and release assets before a later visibility change.
+- [ ] Obtain a separate explicit instruction to merge and/or publish after the above decisions.
 
-Use only trusted checkpoints. Never commit local output bundles or original data without a separate disclosure review.
-
-The original commit metadata contains a local machine email/hostname. Audit commits use the GitHub noreply address; original history still needs a privacy decision before public release.
+The maintained entry point and archival scripts have different validation scopes. See VALIDATION.md and legacy/README.md. Input hashes detect accidental changes; they do not authenticate a checkpoint or establish data rights. No original research data or trained weights are committed.

@@ -78,7 +78,7 @@ class RegressionTest(unittest.TestCase):
                 timeout=60,
             )
             self.assertEqual(mismatch.returncode, 2)
-            self.assertIn("same data root", mismatch.stderr)
+            self.assertIn("same repository", mismatch.stderr)
             missing = subprocess.run(
                 [sys.executable, "run.py", "--data-root", str(folder / "nonexistent")],
                 cwd=ROOT,

@@ -18,7 +18,7 @@ CUDA and MPS execution are not implemented by this runner. MATLAB, ANSYS and Ten
 Clone the repository using an account with access while it remains private:
 
 ```sh
-git clone https://github.com/wowSUNBOY/physics-informed-igbt-transformer.git
+git clone https://github.com/ChenyangLai-Research/physics-informed-igbt-transformer.git
 cd physics-informed-igbt-transformer
 ```
 

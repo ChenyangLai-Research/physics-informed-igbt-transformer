@@ -15,7 +15,7 @@ This dependency set has no Intel macOS PyTorch wheel; Intel Macs require a separ
 The preceding audit passed hosted CPU checks on Linux, macOS and Windows. Check the current PR checks for this revision; passing smoke tests does not validate all platform configurations.
 CUDA and MPS execution are not implemented by this runner. MATLAB, ANSYS and TensorFlow are not required for the curated entry point.
 
-Clone the repository using an account with access while it remains private:
+Clone the repository:
 
 ```sh
 git clone https://github.com/ChenyangLai-Research/physics-informed-igbt-transformer.git
@@ -87,11 +87,15 @@ The paper uses a larger model, many more windows, scheduling, early stopping and
 - `project.json`: original relative source paths and original SHA-256 hashes. Original hashes are retained; `archived_sha256` records the current reviewed copy, including any documented safety edits or notebook sanitization.
 - `CHANGELOG.md`: changes and deviations from the archive.
 
-Original folders were left unchanged. No raw data, manuscript, trained research weights or partner documents are distributed. No open-source license has been assigned; see [RIGHTS.md](RIGHTS.md). Keep this repository private until its scope and rights are reviewed.
+Original folders were left unchanged. No raw data, manuscript, trained research weights or partner documents are distributed. No project-wide open-source license has been assigned; see [RIGHTS.md](RIGHTS.md). Public visibility does not itself grant a software or dataset license.
 
-## Before public release
+## Release scope
 
-See [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) and [RELEASE_DECISIONS.md](RELEASE_DECISIONS.md) for the exact unresolved rights, data-access and scientific decisions. Passing an execution check does not establish publication permission or reproduce scientific results.
+Compact four-class IGBT classification with chronological splits. Use classification accuracy; class-index MSE is not a validated degradation-severity metric. Full baselines and SHAP analysis are outside the validated scope.
+
+The demonstration generates synthetic examples in memory. Original research datasets, trained research weights and manuscripts are not included. No verified external data-access route or redistribution license is offered by this repository; see [DATA.md](DATA.md).
+
+[RELEASE_DECISIONS.md](RELEASE_DECISIONS.md) preserves the review history and unresolved questions about licensing, data access and full-paper reproduction. Passing an execution check does not resolve those questions.
 
 ## Developer checks
 

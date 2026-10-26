@@ -40,3 +40,7 @@ This round reused the independently installed per-repository environments from t
 The preceding audit passed 30 hosted OS jobs. This PR now adds pip-audit 2.10.1 to each OS job; inspect checks at the current PR head for the new advisory results. Advisory checks depend on external service availability and the database state at run time. They are not proof that no vulnerability exists.
 
 A macOS job in the ten-repository follow-up audit correctly failed on an inherited certifi 2026.7.22 installation (PYSEC-2026-4320 / GHSA-6q48-6c7w-9gw2). `requirements-dev.txt` now pins the audit toolchain and certifi 2026.10.19. This is a CI/tooling dependency correction, not a scientific model change. Check the final PR-head run after this correction.
+
+## Publication-candidate verification — 2026-10-26
+
+The maintained source is unchanged by the username-link and publication-documentation updates. The existing per-repository CPython 3.12 environment passed `python -m pip check`, syntax checks and the complete regression suite again. This rerun includes synthetic training and checkpoint replay; it is not an additional fresh dependency installation or an additional original-data experiment. See GitHub Actions for the current revision’s hosted results.

@@ -1,6 +1,6 @@
 # Public-release checklist
 
-Keep this repository private. No merge or public-release action is authorized by the current audit.
+The account owner requested publication of four selected repositories on 2026-10-26. This repository is selected. The original checklist below is retained for transparency; unchecked items are not claimed to have been resolved by technical testing. No project-wide open-source or data-redistribution license is assigned. See RELEASE_DECISIONS.md for the current scope.
 
 - [ ] Resolve code rights and the exact project-wide license in RELEASE_DECISIONS.md (R).
 - [ ] Resolve dataset access, redistribution, schemas and identifier disclosure (D).

@@ -1,6 +1,8 @@
 # Release decisions requiring owner confirmation
 
-Status: **pending — keep private; do not merge or publish**. Recorded 2026-10-24.
+Original review recorded 2026-10-24. On 2026-10-26, the account owner requested publication of four selected repositories; this repository was selected. The earlier blanket instruction to keep all repositories private is superseded for the selected four. Merge authorization is being resolved separately.
+
+The questions below remain a record of unverified licensing, data-access and scientific details. Publication authorization from the account owner must not be represented as independent proof of institutional permission, a dataset license or full scientific reproduction.
 Passing execution tests does not answer the following questions. Potential contributors named below are parties to verify, not a legal determination of ownership.
 
 ## IGBT-R — Code rights and license

@@ -1,0 +1,5 @@
+# CI and local audit tools; separate from application dependencies.
+ruff==0.17.2
+pip-audit==2.10.1
+# Hosted macOS may already contain a vulnerable older CA bundle.
+certifi==2026.10.19

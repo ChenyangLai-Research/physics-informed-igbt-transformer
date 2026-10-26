@@ -1,6 +1,6 @@
 # Local data contract
 
-No research data are bundled. Obtain access from the dataset owner; a publication DOI does not grant redistribution rights. `--data-root` is the root of the corresponding original project, not this repository.
+No research data are bundled. Dataset ownership, external access conditions and redistribution terms have not been verified for this code release. This repository does not offer a download or promise access on request. A publication DOI does not grant redistribution rights. Use only data you are independently authorized to access. `--data-root` is the root of the corresponding original project, not this repository.
 
 Under `data/`: `healthyfirst2w.xlsx`, `6.66-unhealthyfirst1w.xlsx`, `13.33-unhealthysec1w.xlsx`, `20-unhealthythir1w.xlsx`. Required columns: origin wind speed, final wind, peak current, rotational speed, Tambient, TIGBT junction, Tcase. These exact names define a stable healthy/light/medium/high label order.
 

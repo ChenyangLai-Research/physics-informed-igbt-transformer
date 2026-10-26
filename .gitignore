@@ -17,3 +17,17 @@ data/
 *.zip
 *.log
 local_paths.json
+*.joblib
+*.h5
+*.hdf5
+*.xls
+*.xlsm
+*.parquet
+*.safetensors
+*.pem
+*.key
+.ruff_cache/
+*.p12
+*.pfx
+*.sqlite
+*.sqlite3
